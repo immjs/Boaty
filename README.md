@@ -14,7 +14,7 @@ Boaty est un bot multifonction visant à être la boîte à outil de votre serve
 * <font color="red">Commandes de modération </font>
 * <font color="red">Reaction Role</font>
 
-**Note : les fonctionalités <font color="red">**en rouge**</font> ne sont pas encore disponible.**
+**Note : Certaines fonctionalités ne sont pas encore disponible.**
 
 ## Inviter le bot
 
