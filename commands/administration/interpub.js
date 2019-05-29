@@ -1,14 +1,14 @@
 const { Command, Commando } = require('discord.js-commando');
 const { RichEmbed, MessageAttachment } = require('discord.js');
 
-module.exports = class SetInterChatCommand extends Command {
+module.exports = class SetInterPubCommand extends Command {
     constructor(client) {
         super(client, {
-            name: 'interchat',
-            aliases: ['sic'],
+            name: 'interpub',
+            aliases: ['ip'],
             group: 'administration',
-            memberName: 'interchar',
-            description: 'Définisez si le chat l\'inter-serveur est activé',
+            memberName: 'interpub',
+            description: 'Définisez si le chat l\'inter-pub est activé',
             userPermissions: ['ADMINISTRATOR'],
             examples: ['sic true'],
             guildOnly: true,
@@ -34,18 +34,18 @@ module.exports = class SetInterChatCommand extends Command {
         var status = ""
        switch (content) {
              case "true": 
-                    msg.guild.settings.set('sic', 'true');
+                    msg.guild.settings.set('interpub', 'true');
                     // Create a new text channel
-                    if (!msg.guild.channels.exists('name', 'inter-serveur'))
+                    if (!msg.guild.channels.exists('name', 'inter-pub'))
                     {
-                        msg.guild.createChannel('inter-serveur', 'text')
+                        msg.guild.createChannel('inter-pub', 'text')
                         .then(console.log)
                         .catch(console.error);
                     }
                     status = "activé"
         break;
             case "false":
-                    msg.guild.settings.set('sic', 'true');
+                    msg.guild.settings.set('interpub', 'true');
                     status = "désactivé"
         break;
              default:
@@ -53,7 +53,7 @@ module.exports = class SetInterChatCommand extends Command {
        }
            
             var RichSuccess = new RichEmbed()
-            .setTitle(`le Channel inter-serveur est désormais ${status} !`)
+            .setTitle(`le Channel inter-pub est désormais ${status} !`)
             .setColor(0x00AE86)
             .setTimestamp();
         msg.embed(RichSuccess);
