@@ -1,0 +1,29 @@
+{
+  "name": "boatyv2",
+  "version": "2.0.0",
+  "description": "La V2 de Boaty",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PodyDev/Boaty.git"
+  },
+  "keywords": [
+    "v2",
+    "bot",
+    "boaty"
+  ],
+  "author": "Pody",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/PodyDev/Boaty/issues"
+  },
+  "homepage": "https://github.com/PodyDev/Boaty#readme",
+  "dependencies": {
+    "discord.js": "^11.5.0",
+    "discord.js-commando": "^0.10.0",
+    "sqlite": "^3.0.3"
+  }
+}
