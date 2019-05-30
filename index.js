@@ -1,11 +1,11 @@
 const sqlite = require('sqlite'); // DB GuildSettings
-const sqlite3 = require('sqlite3'); // DB 
+const sqlite3 = require('sqlite3'); // DB
 const path = require('path');
 const fs = require('fs');
 const { RichEmbed, MessageAttachment } = require('discord.js');
 var logger = require('logger').createLogger('./log/interserver.log'); // logs to a file
 var pubLogger = require('logger').createLogger('./log/interpub.log'); // logs to a file
-
+var ping = require('ping');
 
     var blacklist = ""
     var blacklistServer = ""
@@ -14,6 +14,16 @@ var pubLogger = require('logger').createLogger('./log/interpub.log'); // logs to
     const talkedRecently = new Set();
     const talkedRecentlyPub = new Set();
 
+    function containURL(array){
+      var any=[];
+      hosts.forEach(function(host){
+        host.split('/');
+        ping.sys.probe(host, function(isAlive){
+          any.push(isAlive);
+        });
+      })
+      return(any);
+    }
 
 // BlacklistUser
 fs.readFile("./blacklist.txt", 'utf8', function(err, data) {
@@ -34,6 +44,7 @@ fs.readFile("./blacklistServer.txt", 'utf8', function(err, data) {
 const { CommandoClient, SQLiteProvider } = require('discord.js-commando');
 
 // Utiliser pour les users settings
+
 let db = new sqlite3.Database('userdata.sqlite3', (err) => {
     if (err) {
       console.error(err.message);
@@ -81,7 +92,7 @@ client.on("guildCreate", guild => {
     client.user.setActivity(`s'amuser avec vous sur ${client.guilds.size} serveurs`); // Update the status
         var BoatyJoinEmbed = new RichEmbed()
             .setTitle("Merci d'avoir choisi Boaty !")
-            .setDescription(`Grâce à vous, Boaty est désormais sur ${client.guilds.size} serveurs !\rFaites bo!help pour avoir la liste des commandes disponible`)
+            .setDescription(`Grâce à vous, Boaty est désormais sur ${client.guilds.size} serveurs !\rFaites bo!help pour avoir la liste des commandes disponibles`)
             .addField("Serveur support :", "https://discord.gg/AzNVf9U")
             .setColor("#00FF00")
             .setTimestamp()
@@ -93,23 +104,23 @@ client.on("guildDelete", guild => {
     console.log("Left a guild : " + guild.name);
     client.user.setActivity(`s'amuser avec vous sur ${client.guilds.size} serveurs`); // Update the status
 })
-    
+
     client.on('message', async message => {
         //Inter serveur
             if(message.author.bot) return;
-           
+
         if(message.guild.settings.get('sic') === "true") {
-            if (message.channel.name === "inter-serveur") {   
+            if (message.channel.name === "inter-serveur") {
                     message.delete()
                     if (talkedRecently.has(message.author.id)) {
                         const TalkEmbed = new RichEmbed()
                             .setTitle("OOF ! Vous allez trop vite !")
                             .setDescription("Veuillez attendre 1.5 seconde avant de reposter un autre message")
                             logger.warn(`SPAM`, `${message.author.username}/${message.author.id}`, `SERVER : ${message.guild.name}/${message.guild.id}`, `CONTENT : ${message.content}`);
-                            
+
                        return message.author.send(TalkEmbed);
                     }
-                
+
                 // Adds the user to the set so that they can't talk for 2.5 seconds
                 talkedRecently.add(message.author.id);
                 setTimeout(() => {
@@ -147,7 +158,7 @@ client.on("guildDelete", guild => {
                         msgContent = message.content
                     }
 
-                    if(message.content.includes("http://") || message.content.includes("https://") || message.content.includes("www.")) {
+                    if(message.content.includes("http://") || message.content.includes("https://") || message.content.includes("www.") || (containURL(message.content.split(' '))&&!message.content.startsWith("192.168"))) {
                         if(message.author.id !== "383916189736370177") {
                             const LinkEmbed = new RichEmbed()
                             .setTitle("Erreur")
@@ -160,9 +171,9 @@ client.on("guildDelete", guild => {
                         return;
 
                         }
-                
+
                     }
-                
+
                     const msgEmbed = new RichEmbed()
                         .setAuthor(`${message.author.username}/${message.author.id}`, message.author.avatarURL)
                         .addField("Message :", msgContent)
@@ -177,7 +188,7 @@ client.on("guildDelete", guild => {
 
                 // InterPub
                 if(message.guild.settings.get('interpub') === "true") {
-                    if (message.channel.name === "inter-pub") {   
+                    if (message.channel.name === "inter-pub") {
                             message.delete()
                             if (talkedRecentlyPub.has(message.author.id)) {
                                 const TalkEmbed = new RichEmbed()
@@ -190,7 +201,7 @@ client.on("guildDelete", guild => {
 
                                return message.author.send(TalkEmbed);
                             }
-                        
+
                         // Adds the user to the set so that they can't talk for 2.5 seconds
                         talkedRecentlyPub.add(message.author.id);
                         setTimeout(() => {
@@ -216,7 +227,7 @@ client.on("guildDelete", guild => {
                                     .setTimestamp()
                                     .setThumbnail("https://cdn.discordapp.com/attachments/557278178134065154/571012078505033759/274c.png")
                                     pubLogger.warn("GUILD BANNED", `${message.author.username}/${message.author.id}`,`SERVER : ${message.guild.name}/${message.guild.id}`, `CONTENT : ${message.content}`)
-        
+
                         message.author.send(blacklistServEmbed)
                                 return;
                             }
@@ -227,19 +238,19 @@ client.on("guildDelete", guild => {
                                 msgColor = "#3498db"
                                 msgContent = message.content
                             }
-                        
+
                             const msgEmbed = new RichEmbed()
                                 .setAuthor(`${message.author.username}/${message.author.id}`, message.author.avatarURL)
                                 .addField("Message :", msgContent)
                                 .setFooter(`de ${message.guild.name}/${message.guild.id}`, message.guild.iconURL)
                                 .setColor(msgColor)
                                 pubLogger.info("MESSAGE", `${message.author.username}/${message.author.id}`,`SERVER : ${message.guild.name}/${message.guild.id}`, `CONTENT : ${message.content}`)
-        
+
                             client.channels.findAll('name', "inter-pub").map(channel => channel.send(msgEmbed))
                             }
                         }
     })
-   
+
 
 
     try {
@@ -248,6 +259,3 @@ client.on("guildDelete", guild => {
       catch(error) {
         client.login('TOKEN DE TEST'); // Token de test
       }
-      
- 
-
