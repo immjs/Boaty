@@ -32,7 +32,7 @@ module.exports = class WarnCommand extends Command {
                     }
                 }
             ]
-        });    
+        });
     }
 
     run(msg, { user, content }) {
@@ -50,7 +50,7 @@ module.exports = class WarnCommand extends Command {
         .setColor("#FF0000")
         .setAuthor(msg.author.username, msg.author.avatarURL)
         .setTitle(`Vous avez reçu un avertissement sur ${msg.guild.name}`)
-        .addField('Avertis par', msg.author.tag)
+        .addField('Averti par', msg.author.tag)
         .addField('Raison : ', content)
         .setDescription('Ne recommencez plus **jamais !**')
         .setTimestamp();
@@ -72,7 +72,7 @@ module.exports = class WarnCommand extends Command {
         .addField("Heure :", msg.createdAt)
         .addField("Raison :", content);
 
-        
+
             channel.send(WarnEmbedLog);
     }
 };

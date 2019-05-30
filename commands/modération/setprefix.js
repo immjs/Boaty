@@ -33,13 +33,13 @@ module.exports = class nickCommand extends Command {
                     }
                 }
             ]
-        });    
+        });
     }
 
     run(msg, { user, content }) {
         msg.delete()
         let channel = msg.guild.channels.find(c => c.id === msg.guild.settings.get("modlog"));
-        if(!channel) return msg.reply("Veuillez setup un channel de log avec la commande bo!modlog !");
+        if(!channel) return msg.reply("Veuillez creer un channel de log avec la commande bo!modlog !");
         var userHasPerm = new RichEmbed()
             .setDescription('ERREUR ! Cette personne a la permission `MANAGE_NICKNAMES`')
             .setAuthor(msg.author.username)
@@ -64,7 +64,7 @@ module.exports = class nickCommand extends Command {
         .addField("Heure :", msg.createdAt)
         .addField("Nouveau préfix :", content);
 
-       
+
             channel.send(PrefixEmbedLog);
     }
 };

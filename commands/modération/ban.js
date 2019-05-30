@@ -33,7 +33,7 @@ module.exports = class BanCommand extends Command {
                     }
                 }
             ]
-        });    
+        });
     }
 
     async run(msg, { user, content }) {
@@ -59,10 +59,10 @@ module.exports = class BanCommand extends Command {
             .setColor("#FF0000")
             .setTitle(`Vous ne pouvez pas bannir cette personne !`)
             .setTimestamp()
-             
+
     if(!user.bannable) return msg.embed(errorEmbed)
 
-    
+
     user.ban(`Banni par ${msg.author.username} pour la raison ${content}`);
         var SuccessEmbed = new RichEmbed()
         .setColor(0x00AE86)
@@ -82,10 +82,10 @@ module.exports = class BanCommand extends Command {
         try{
             await user.send(banEmbed)
           }catch(e){
-            msg.channel.send(`Cet utilisateur vient d'être kické mais je ne peux pas lui envoyer de mp pour lui expliquer.`)
+            msg.channel.send(`Cet utilisateur a été banni mais je ne peux pas lui envoyer de mp pour lui expliquer.`)
           }
 
-          
+
           let BanEmbedLog = new RichEmbed()
                     .setTitle("BAN")
                     .setColor("#0000000")
@@ -94,10 +94,10 @@ module.exports = class BanCommand extends Command {
                     .addField("Banni dans", msg.channel)
                     .addField("Heure :", msg.createdAt)
                     .addField("Raison :", content);
-          
+
           channel.send(BanEmbedLog);
-    
+
     return msg.embed(SuccessEmbed);
-    
+
     }
 };

@@ -31,7 +31,7 @@ module.exports = class MuteCommand extends Command {
                     }
                 }
             ]
-        });    
+        });
     }
 
     async run(msg, { user, content }) {
@@ -82,17 +82,15 @@ module.exports = class MuteCommand extends Command {
                     await user.send(muteSendToUserEmbed)
                   }catch(e){
                       console.log(e.stack)
-                    msg.channel.send(`Cet utilisateur vient d'être muté mais je ne peux pas lui envoyer de mp pour lui expliquer`)
+                    msg.channel.send(`Cet utilisateur a été mis en silence mais je ne peux pas lui envoyer de mp pour lui expliquer`)
                   }
 
-                  
-                
-                  
+
+
+
                   channel.send(muteembed);
-                
+
                 await(user.addRole(muterole.id));
-                
+
             }
         }
-    
-                
