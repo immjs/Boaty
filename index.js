@@ -158,7 +158,7 @@ client.on("guildDelete", guild => {
                         msgContent = message.content
                     }
 
-                    if(message.content.includes("http://") || message.content.includes("https://") || message.content.includes("www.") || (containURL(message.content.split(' '))&&!message.content.startsWith("192.168"))) {
+                    if(message.content.includes("http://") || message.content.includes("https://") || message.content.includes("ftp://") || message.content.includes("sftp://") || message.content.includes("www.") || (containURL(message.content.split(' '))&&!message.content.startsWith("192.168"))) {
                         if(message.author.id !== "383916189736370177") {
                             const LinkEmbed = new RichEmbed()
                             .setTitle("Erreur")
