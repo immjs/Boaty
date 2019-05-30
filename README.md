@@ -18,4 +18,4 @@ Boaty est un bot multifonction visant à être la boîte à outil de votre serve
 
 ## Inviter le bot
 
-Le bot ne peut pas encore être utiliser mais [la V1 reste accessible](https://discordapp.com/oauth2/authorize?client_id=555076841652748308&scope=bot&permissions=8)
+Le bot ne peut pas encore être utilisé mais [la V1 reste accessible](https://discordapp.com/oauth2/authorize?client_id=555076841652748308&scope=bot&permissions=8)
