@@ -8,7 +8,7 @@ module.exports = class SetInterPubCommand extends Command {
             aliases: ['ip'],
             group: 'administration',
             memberName: 'interpub',
-            description: 'Définisez si le chat l\'inter-pub est activé',
+            description: 'Définissez si le chat l\'inter-pub est activé',
             userPermissions: ['ADMINISTRATOR'],
             examples: ['sic true'],
             guildOnly: true,
@@ -21,19 +21,19 @@ module.exports = class SetInterPubCommand extends Command {
                     key: 'content',
                     prompt: 'Activé = true, désactivé = false',
                     type: 'string',
-                    
+
                 }
             ]
-                
-            
-        });    
+
+
+        });
     }
 
     async run(msg, { content }) {
         msg.delete()
         var status = ""
        switch (content) {
-             case "true": 
+             case "true":
                     msg.guild.settings.set('interpub', 'true');
                     // Create a new text channel
                     if (!msg.guild.channels.exists('name', 'inter-pub'))
@@ -51,14 +51,14 @@ module.exports = class SetInterPubCommand extends Command {
              default:
                     return msg.channel.send("**true** = Activé\r**false** : désactivé")
        }
-           
+
             var RichSuccess = new RichEmbed()
             .setTitle(`le Channel inter-pub est désormais ${status} !`)
             .setColor(0x00AE86)
             .setTimestamp();
         msg.embed(RichSuccess);
-        
-       
-        
+
+
+
     }
 };
