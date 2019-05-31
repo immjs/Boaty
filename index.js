@@ -16,7 +16,7 @@ var ping = require('ping');
 
     function containURL(array){
       var any=[];
-      hosts.forEach(function(host){
+      array.forEach(function(host){
         host.split('/');
         ping.sys.probe(host, function(isAlive){
           any.push(isAlive);
